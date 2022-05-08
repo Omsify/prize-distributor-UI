@@ -1,0 +1,32 @@
+.main h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 3em;
+    color: black;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.main h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2em;
+    color: black;
+    /* background: rgba(255, 255, 255, 0.3); */
+    background-size: contain;
+}
+
+.main input {
+    min-height: 100px;
+    max-width: 1400px;
+}
+
+.EachWinnerPrize input {
+    max-width: 200px;
+}
+
+.Error {
+    color: red;
+}
+
+.Success {
+    color: limegreen;
+}
