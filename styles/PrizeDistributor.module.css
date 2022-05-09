@@ -8,10 +8,29 @@
 
 .main h2 {
     font-family: Arial, Helvetica, sans-serif;
+    font-size: 2.5em;
+    color: black;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.main h3 {
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 2em;
     color: black;
     /* background: rgba(255, 255, 255, 0.3); */
     background-size: contain;
+}
+
+.border {
+    border: 3px solid lightsalmon;
+}
+
+.awayFromBorder {
+    margin-top: 2em;
+    margin-left: 2em;
+    margin-right: 2em;
+    margin-bottom: 2em;
 }
 
 .main input {
@@ -29,4 +48,18 @@
 
 .Success {
     color: limegreen;
+}
+
+.DifferentDir {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2em;
+    color: lightblue;
+    margin-left: 2em;
+    margin-top: 12px;
+
+}
+
+.DifferentDir .DiffLink:hover {
+    color: darkcyan;
+    border-bottom: 1px solid white;
 }
