@@ -164,7 +164,7 @@ const PrizeDistribution = () => {
                 <button onClick={getRandomSeed} className="button is-primary mt-2" style={{ height: 65, width: 145 }}>Get random seed</button>
                 <p className="mt-2">{randomSeed != 0 ? `Your giveaway seed is ${randomSeed}` : `Get your giveaway seed before distributing to random addresses! If you have already done this, wait for confirmations (usually not more than 5 minutes).`}</p>
                 <div className={styles.ChainlinkLink}>
-                    <Link href="/"><a className={styles.ChainlinkLinkHover}>{randomSeed != 0 ? `` : `Check your confirmation process here`}</a></Link>
+                    <Link href="/"><a className={styles.ChainlinkLinkHover}>Check your confirmation process here</a></Link>
                 </div>
             </div>
             <section>
