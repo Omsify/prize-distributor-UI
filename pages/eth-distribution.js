@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Web3 from 'web3'
 import prizeDistributorContract from '../blockchain/prizeDistributor'
 import 'bulma/css/bulma.css'
@@ -7,16 +7,30 @@ import styles from '../styles/PrizeDistributor.module.css'
 import Link from 'next/link';
 
 const PrizeDistribution = () => {
+
     const [error, setError] = useState('')
     const [successMsg, setSuccessMsg] = useState('')
+
+    const [randomSeed, setRandomSeed] = useState('')
     const [addresses, setAddresses] = useState('')
     const [participants, setParticipants] = useState('')
     const [winnerNum, setWinnerNum] = useState('')
     const [prizeForRaffle, setPrizeForRaffle] = useState(null)
     const [prize, setPrize] = useState(null)
+
     const [web3, setWeb3] = useState(null)
     const [address, setAddress] = useState(null)
     const [pdContract, setPdContract] = useState(null)
+
+    useEffect(() => {
+        if (pdContract && address) getRandomSeedUI()
+    }, [pdContract, address])
+
+    const getRandomSeedUI = async () => {
+        const tempRandomSeed = await pdContract.methods.randomWordByAddress(address).call()
+        console.log(`${address} random seed is ${tempRandomSeed}`)
+        setRandomSeed(tempRandomSeed)
+    }
 
     const updateParticipants = event => {
         setParticipants(event.target.value.split(','))
@@ -56,15 +70,17 @@ const PrizeDistribution = () => {
     }
     const distributeETHToRandomWinnersHandler = async () => {
         try {
-            let val = web3.utils.toWei(prizeForRaffle.toString(), 'ether')
+            let eachWinnerPrize = web3.utils.toWei(prizeForRaffle.toString(), 'ether')
+            let val = eachWinnerPrize * winnerNum
             console.log("Prize for raffle: " + prizeForRaffle)
             console.log("Winner number: " + winnerNum)
             console.log("Total value: " + prizeForRaffle * winnerNum)
             console.log("Participants: " + participants)
-            console.log("txn value: " + web3.utils.toWei((prizeForRaffle * winnerNum).toString(), 'ether'))
-            await pdContract.methods.distributeToRandomAddresses(participants, winnerNum, val).send({
+            console.log("Each winner prize: " + eachWinnerPrize)
+            console.log("txn value: " + val)
+            await pdContract.methods.distributeToRandomAddresses(participants, winnerNum, eachWinnerPrize).send({
                 from: address,
-                value: web3.utils.toWei((prizeForRaffle * winnerNum).toString(), 'ether')
+                value: val
             })
             setSuccessMsg(`Distributed ${prizeForRaffle * winnerNum} ETH to ${winnerNum} addresses`)
         } catch (err) {
@@ -103,11 +119,13 @@ const PrizeDistribution = () => {
                 /* Create local contract copy */
                 const pdContract = prizeDistributorContract(web3)
                 setPdContract(pdContract)
+
+
             } catch (err) {
                 setError(err)
             }
         } else {
-            // MetaMask not installed
+            /* MetaMask not installed */
             console.log("Please install MetaMask")
         }
     }
@@ -142,9 +160,15 @@ const PrizeDistribution = () => {
                     <button onClick={connectWalletHandler} className="button is-primary" style={{ height: 65, width: 145 }}>{address != null ? address.substring(0, 12) + "..." : "Connect wallet"}</button>
                 </div>
             </nav >
-            <button onClick={getRandomSeed} className="button is-primary" style={{ height: 65, width: 145 }}>Get random seed</button>
+            <div className="container mt-4">
+                <button onClick={getRandomSeed} className="button is-primary mt-2" style={{ height: 65, width: 145 }}>Get random seed</button>
+                <p className="mt-2">{randomSeed != 0 ? `Your giveaway seed is ${randomSeed}` : `Get your giveaway seed before distributing to random addresses! If you have already done this, wait for confirmations (usually not more than 5 minutes).`}</p>
+                <div className={styles.ChainlinkLink}>
+                    <Link href="/"><a className={styles.ChainlinkLinkHover}>{randomSeed != 0 ? `` : `Check your confirmation process here`}</a></Link>
+                </div>
+            </div>
             <section>
-                <div className="container ml- mt-6">
+                <div className="container mt-6">
                     <div className={styles.border}>
                         <div className={styles.awayFromBorder}>
                             <h2 className={styles.Variant}>Random addresses out of participants</h2>
