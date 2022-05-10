@@ -142,17 +142,17 @@ const PrizeDistribution = () => {
                     <h1> <div className="ml-5 mr-5"> ETH distribution </div></h1>
                 </div>
                 <div className={styles.DifferentDir}>
-                    <Link href="/">
+                    <Link href="/eth">
                         <a className={styles.DiffLink}>ETH</a>
                     </Link>
                 </div>
                 <div className={styles.DifferentDir}>
-                    <Link href="/">
+                    <Link href="/erc20">
                         <a className={styles.DiffLink}>ERC20</a>
                     </Link>
                 </div>
                 <div className={styles.DifferentDir}>
-                    <Link href="/">
+                    <Link href="/erc721">
                         <a className={styles.DiffLink}>ERC721</a>
                     </Link>
                 </div>
@@ -162,9 +162,9 @@ const PrizeDistribution = () => {
             </nav >
             <div className="container mt-4">
                 <button onClick={getRandomSeed} className="button is-primary mt-2" style={{ height: 65, width: 145 }}>{randomSeed != 0 ? `Change seed` : `Get seed`}</button>
-                <p className="mt-2">{randomSeed != 0 ? `Your giveaway seed is ${randomSeed}` : `Get your giveaway seed before distributing to random addresses! If you have already done this, wait for confirmations (usually not more than 5 minutes).`}</p>
+                <p className={styles.Error}>{randomSeed != 0 ? `Your giveaway seed is ${randomSeed}` : `Get your giveaway seed before distributing to random addresses! If you have already done this, wait for confirmations (usually not more than 5 minutes).`}</p>
                 <div className={styles.ChainlinkLink}>
-                    <Link href="/"><a className={styles.ChainlinkLinkHover}>Check your confirmation process here</a></Link>
+                    <Link href="https://vrf.chain.link/rinkeby/3273"><a className={styles.ChainlinkLinkHover}>Check your confirmation process here</a></Link>
                 </div>
             </div>
             <section>
@@ -220,6 +220,7 @@ const PrizeDistribution = () => {
                     <p className={styles.Success}>{successMsg}</p>
                 </div>
             </section>
+            <div className="mb-5"> </div>
             <style jsx>{`
                     .navbar {
                       background: rgba(255, 255, 255, 0.5);
