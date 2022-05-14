@@ -15,12 +15,16 @@ const PrizeDistribution = () => {
     const [addresses, setAddresses] = useState('')
     const [participants, setParticipants] = useState('')
     const [winnerNum, setWinnerNum] = useState('')
+    const [erc20addressForRaffle, setErc20addressForRaffle] = useState('')
+    const [erc20address, setErc20address] = useState('')
     const [prizeForRaffle, setPrizeForRaffle] = useState(null)
     const [prize, setPrize] = useState(null)
 
     const [web3, setWeb3] = useState(null)
     const [address, setAddress] = useState(null)
     const [pdContract, setPdContract] = useState(null)
+
+    const PDContractAddress = "0xDfF4D519c31BcDC1755E1034b325Cbc3A31aEEAA"
 
     useEffect(() => {
         if (pdContract && address) getRandomSeedUI()
@@ -44,17 +48,27 @@ const PrizeDistribution = () => {
 
     const updatePrizeForRaffle = event => {
         setPrizeForRaffle(event.target.value)
-        console.log(prizeForRaffle)
+        console.log("PrizeForRaffle: " + prizeForRaffle)
     }
 
     const updateWinnerNum = event => {
         setWinnerNum(event.target.value)
-        console.log(winnerNum)
+        console.log("WinnerNum: " + winnerNum)
     }
 
     const updatePrize = event => {
         setPrize(event.target.value)
-        console.log(prize)
+        console.log("Prize: " + prize)
+    }
+
+    const updateERC20address = event => {
+        setErc20address(event.target.value)
+        console.log("ERC20address: " + participants)
+    }
+
+    const updateERC20addressForRaffle = event => {
+        setErc20addressForRaffle(event.target.value)
+        console.log("ERC20addressForRaffle: " + participants)
     }
 
     const getRandomSeed = async () => {
@@ -68,36 +82,59 @@ const PrizeDistribution = () => {
             setError(err.message)
         }
     }
-    const distributeETHToRandomWinnersHandler = async () => {
+
+    const approveERC20ForRaffleHandler = async () => {
         try {
-            let eachWinnerPrize = web3.utils.toWei(prizeForRaffle.toString(), 'ether')
-            let val = eachWinnerPrize * winnerNum
+            let abi = [{ "inputs": [{ "internalType": "address", "name": "spender", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "approve", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }]
+            let contract = new web3.eth.Contract(abi, erc20addressForRaffle)
+            let val = web3.utils.toWei((prizeForRaffle * winnerNum).toString(), 'ether')
+            await contract.methods.approve(PDContractAddress, val).send({
+                from: address
+            })
+            setSuccessMsg(`Approved tokens`)
+        } catch (err) {
+            setError(err)
+        }
+    }
+
+    const approveERC20Handler = async () => {
+        try {
+            let abi = [{ "inputs": [{ "internalType": "address", "name": "spender", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "approve", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }]
+            let contract = new web3.eth.Contract(abi, erc20address)
+            let val = web3.utils.toWei((prize * addresses.length).toString(), 'ether')
+            await contract.methods.approve(PDContractAddress, val).send({
+                from: address
+            })
+            setSuccessMsg(`Approved tokens`)
+        } catch (err) {
+            setError(err)
+        }
+    }
+
+    const distributeERC20ToRandomWinnersHandler = async () => {
+        try {
             console.log("Prize for raffle: " + prizeForRaffle)
             console.log("Winner number: " + winnerNum)
             console.log("Total value: " + prizeForRaffle * winnerNum)
             console.log("Participants: " + participants)
-            console.log("Each winner prize: " + eachWinnerPrize)
-            console.log("txn value: " + val)
-            await pdContract.methods.distributeToRandomAddresses(participants, winnerNum, eachWinnerPrize).send({
-                from: address,
-                value: val
+            await pdContract.methods.distributeERC20ToRandomAddresses(participants, winnerNum, prizeForRaffle, erc20addressForRaffle).send({
+                from: address
             })
-            setSuccessMsg(`Distributed ${prizeForRaffle * winnerNum} ETH to ${winnerNum} addresses`)
+            setSuccessMsg(`Distributed!`)
         } catch (err) {
-            setError(err.message)
+            setError(err)
         }
     }
 
-    const distributeETHHandler = async () => {
+    const distributeERC20Handler = async () => {
         try {
             let val = web3.utils.toWei(prize.toString(), 'ether')
-            await pdContract.methods.distributeToAddresses(val, addresses).send({
-                from: address,
-                value: val * addresses.length
+            await pdContract.methods.distributeERC20ToAddresses(val, addresses, erc20address).send({
+                from: address
             })
-            setSuccessMsg(`Distributed ${prize * addresses.length} ETH to ${addresses.length} addresses`)
+            setSuccessMsg(`Distributed!`)
         } catch (err) {
-            setError(err.message)
+            setError(err)
         }
     }
 
@@ -115,6 +152,20 @@ const PrizeDistribution = () => {
                 /* Get list of accounts */
                 const accounts = await web3.eth.getAccounts()
                 setAddress(accounts[0])
+
+                /* Change network to Rinkeby */
+                await ethereum.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: web3.utils.toHex('4') }],
+                })
+                    .then(() => console.log('network has been set'))
+                    .catch((e) => {
+                        if (e.code === 4902) {
+                            console.log('network is not available, add it')
+                        } else {
+                            console.log('could not set network')
+                        }
+                    })
 
                 /* Create local contract copy */
                 const pdContract = prizeDistributorContract(web3)
@@ -182,10 +233,21 @@ const PrizeDistribution = () => {
                                 <input onChange={updateWinnerNum} className="input mt-3" type="type" placeholder="4" rows="1"></input>
                             </div>
                             <div className={styles.EachWinnerPrize}>
-                                <h3 className="mt-3">What's the prize for each winner? (in ETH)</h3>
+                                <h3 className="mt-3">What's the prize for each winner? (18 decimals)</h3>
                                 <input onChange={updatePrizeForRaffle} className="input mt-3" type="type" placeholder="0.005" rows="1"></input>
                             </div>
-                            <button onClick={distributeETHToRandomWinnersHandler} className="button is-primary mt-3 mb-3" style={{ height: 65, width: 290 }}>Distribute ETH to addresses</button>
+                            <div className="ERC20AddressForRaffleInput">
+                                <h3 className="mt-3">ERC20 address</h3>
+                                <input onChange={updateERC20addressForRaffle} className="input mt-3" type="type" placeholder="0xfab46e002bbf0b4509813474841e0716e6730136" rows="1"></input>
+                            </div>
+                            <nav className="navbar mt-5 mb-4 ml-0 mr-0">
+                                <div className="navbar-brand ml-5">
+                                    <button onClick={approveERC20ForRaffleHandler} className="button is-primary mt-3 mb-3" style={{ height: 65, width: 290 }}>Approve ERC20</button>
+                                </div>
+                                <div className="navbar-end mt-1 mr-5">
+                                    <button onClick={distributeERC20ToRandomWinnersHandler} className="button is-primary mt-3 mb-3" style={{ height: 65, width: 290 }}>Distribute ERC20 to addresses</button>
+                                </div>
+                            </nav >
                         </div>
                     </div>
                 </div>
@@ -201,10 +263,21 @@ const PrizeDistribution = () => {
                                 <input onChange={updateAddresses} className="input mt-3" type="type" placeholder="0xC55CA7b3Abb59BecA63DDD4D422bC02B173dBba6,0x68A1437782411d73AF32d5Ba4d450fD9D46aA530,..." ></input>
                             </div>
                             <div className={styles.EachWinnerPrize}>
-                                <h3 className="mt-3">What's the prize for each winner? (in ETH)</h3>
+                                <h3 className="mt-3">What's the prize for each winner? (18 decimals)</h3>
                                 <input onChange={updatePrize} className="input mt-3" type="type" placeholder="0.005" rows="1"></input>
                             </div>
-                            <button onClick={distributeETHHandler} className="button is-primary mt-3 mb-3" style={{ height: 65, width: 290 }}>Distribute ETH to addresses</button>
+                            <div className="ERC20AddressInput">
+                                <h3 className="mt-3">ERC20 address</h3>
+                                <input onChange={updateERC20address} className="input mt-3" type="type" placeholder="0xfab46e002bbf0b4509813474841e0716e6730136" rows="1"></input>
+                            </div>
+                            <nav className="navbar mt-5 mb-4 ml-0 mr-0">
+                                <div className="navbar-brand ml-5">
+                                    <button onClick={approveERC20Handler} className="button is-primary mt-3 mb-3" style={{ height: 65, width: 290 }}>Approve ERC20</button>
+                                </div>
+                                <div className="navbar-end mt-1 mr-5">
+                                    <button onClick={distributeERC20Handler} className="button is-primary mt-3 mb-3" style={{ height: 65, width: 290 }}>Distribute ERC20 to addresses</button>
+                                </div>
+                            </nav >
                         </div>
                     </div>
                 </div>
