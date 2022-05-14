@@ -212,7 +212,7 @@ const PrizeDistribution = () => {
 
             <section>
                 <div className="container has-text-danger">
-                    <p className={styles.Error}>{error}</p>
+                    <p className={styles.Error}>{error.message}</p>
                 </div>
             </section>
             <section>
