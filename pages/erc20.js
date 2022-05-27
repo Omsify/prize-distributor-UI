@@ -207,6 +207,11 @@ const PrizeDistribution = () => {
                         <a className={styles.DiffLink}>ERC721</a>
                     </Link>
                 </div>
+                <div className={styles.DifferentDir}>
+                    <Link href="/how-to">
+                        <a className={styles.DiffLink}>HOW-TO</a>
+                    </Link>
+                </div>
                 <div className="navbar-end mt-1 mr-5">
                     <button onClick={connectWalletHandler} className="button is-primary" style={{ height: 65, width: 145 }}>{address != null ? address.substring(0, 12) + "..." : "Connect wallet"}</button>
                 </div>
@@ -247,6 +252,7 @@ const PrizeDistribution = () => {
                                 <div className="navbar-end mt-1 mr-5">
                                     <button onClick={distributeERC20ToRandomWinnersHandler} className="button is-primary mt-3 mb-3" style={{ height: 65, width: 290 }}>Distribute ERC20 to addresses</button>
                                 </div>
+
                             </nav >
                         </div>
                     </div>
