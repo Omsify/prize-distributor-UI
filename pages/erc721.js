@@ -233,78 +233,11 @@ const PrizeDistribution = () => {
                 <div className="container mt-6">
                     <div className={styles.border}>
                         <div className={styles.awayFromBorder}>
-                            <h2 className={styles.Variant}>Random addresses out of participants</h2>
-
-                            <h3><div>Paste your participants CSV text here (Without spaces)</div></h3>
-                            <div className="CSVInput">
-                                <input onChange={updateParticipants} className="input mt-3" type="type" placeholder="0xC55CA7b3Abb59BecA63DDD4D422bC02B173dBba6,0x68A1437782411d73AF32d5Ba4d450fD9D46aA530,..." ></input>
-                            </div>
-                            <div className={styles.EachWinnerPrize}>
-                                <h3 className="mt-3">Winner number</h3>
-                                <input onChange={updateWinnerNum} className="input mt-3" type="type" placeholder="4" rows="1"></input>
-                            </div>
-                            <div className="TokenIDsCSVInput">
-                                <h3 className="mt-3">TokenID CSV for each winner</h3>
-                                <input onChange={updateTokenIDsForRaffle} className="input mt-3" type="type" placeholder="52,342,508" rows="1"></input>
-                            </div>
-                            <div className="ERC721AddressForRaffleInput">
-                                <h3 className="mt-3">ERC721 address</h3>
-                                <input onChange={updateERC721addressForRaffle} className="input mt-3" type="type" placeholder="0xfab46e002bbf0b4509813474841e0716e6730136" rows="1"></input>
-                            </div>
-                            <nav className="navbar mt-5 mb-4 ml-0 mr-0">
-                                <div className="navbar-brand ml-5">
-                                    <button onClick={approveERC721ForRaffleHandler} className="button is-primary mt-3 mb-3" style={{ height: 65, width: 290 }}>{`Approve ERC721 №${currentTokenIDForRaffle}`}</button>
-                                </div>
-                                <div className="navbar-end mt-1 mr-5">
-                                    <button onClick={distributeERC721ToRandomWinnersHandler} className="button is-primary mt-3 mb-3" style={{ height: 65, width: 290 }}>Distribute ERC721 to addresses</button>
-                                </div>
-                            </nav >
+                            <h2 className={styles.Variant}>Under construction...</h2>
                         </div>
                     </div>
                 </div>
             </section>
-
-            <section>
-                <div className="container ml- mt-6">
-                    <div className={styles.border}>
-                        <div className={styles.awayFromBorder}>
-                            <h2 className={styles.Variant}>Known addresses</h2>
-                            <h3><div>Paste your CSV text here (Without spaces)</div></h3>
-                            <div className="CSVInput">
-                                <input onChange={updateAddresses} className="input mt-3" type="type" placeholder="0xC55CA7b3Abb59BecA63DDD4D422bC02B173dBba6,0x68A1437782411d73AF32d5Ba4d450fD9D46aA530,..." ></input>
-                            </div>
-                            <div className="TokenIDsCSVInput">
-                                <h3 className="mt-3">TokenID CSV for each winner</h3>
-                                <input onChange={updateTokenIDs} className="input mt-3" type="type" placeholder="52,342,508" rows="1"></input>
-                            </div>
-                            <div className="ERC721AddressInput">
-                                <h3 className="mt-3">ERC721 address</h3>
-                                <input onChange={updateERC721address} className="input mt-3" type="type" placeholder="0xfab46e002bbf0b4509813474841e0716e6730136" rows="1"></input>
-                            </div>
-                            <nav className="navbar mt-5 mb-4 ml-0 mr-0">
-                                <div className="navbar-brand ml-5">
-                                    <button onClick={approveERC721Handler} className="button is-primary mt-3 mb-3" style={{ height: 65, width: 290 }}>Approve ERC721</button>
-                                </div>
-                                <div className="navbar-end mt-1 mr-5">
-                                    <button onClick={distributeERC721Handler} className="button is-primary mt-3 mb-3" style={{ height: 65, width: 290 }}>Distribute ERC721 to addresses</button>
-                                </div>
-                            </nav >
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section>
-                <div className="container has-text-danger">
-                    <p className={styles.Error}>{error.message}</p>
-                </div>
-            </section>
-            <section>
-                <div className="container has-text-success">
-                    <p className={styles.Success}>{successMsg}</p>
-                </div>
-            </section>
-            <div className="mb-5"> </div>
             <style jsx>{`
                     .navbar {
                       background: rgba(255, 255, 255, 0.5);
@@ -314,7 +247,7 @@ const PrizeDistribution = () => {
                       font-weight: 700
                     }
             `}</style>
-        </div >
+        </div>
     )
 }
 
