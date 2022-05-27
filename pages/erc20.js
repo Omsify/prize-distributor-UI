@@ -63,12 +63,12 @@ const PrizeDistribution = () => {
 
     const updateERC20address = event => {
         setErc20address(event.target.value)
-        console.log("ERC20address: " + participants)
+        console.log("ERC20address: " + erc20address)
     }
 
     const updateERC20addressForRaffle = event => {
         setErc20addressForRaffle(event.target.value)
-        console.log("ERC20addressForRaffle: " + participants)
+        console.log("ERC20addressForRaffle: " + erc20addressForRaffle)
     }
 
     const getRandomSeed = async () => {
