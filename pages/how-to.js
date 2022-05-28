@@ -116,7 +116,7 @@ const PrizeDistribution = () => {
                             <h3 className={styles.Variant}>3. Fill in all the fields and press distribute</h3>
                         </div>
                         <div className={styles.awayFromBorder}>
-                            <h3 className={styles.Variant}>That's it! You have succesfully distributed the prizes!</h3>
+                            <h3 className={styles.Variant}>That&apos;s it! You have succesfully distributed the prizes!</h3>
                         </div>
                     </div>
                 </div>

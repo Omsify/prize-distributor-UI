@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -19,23 +20,28 @@ export default function Home() {
         <div></div>
 
         <div className={styles.grid}>
-          <a href="/eth" className={styles.card}>
-            <h2>ETH &rarr;</h2>
-            <p>Distribute your ETH to random or known addresses</p>
-          </a>
+          <Link href="/eth">
+            <a className={styles.card}>
+              <h2>ETH &rarr;</h2>
+              <p>Distribute your ETH to random or known addresses</p>
+            </a>
+          </Link>
 
-          <a href="/erc20" className={styles.card}>
-            <h2>ERC20 tokens &rarr;</h2>
-            <p>Distribute any ERC20 token to random or known addresses</p>
-          </a>
+          <Link href="/erc20">
+            <a className={styles.card}>
+              <h2>ERC20 tokens &rarr;</h2>
+              <p>Distribute any ERC20 token to random or known addresses</p>
+            </a>
+          </Link>
 
-          <a
-            href="/erc721"
-            className={styles.card}
-          >
-            <h2>NFTs (ERC721) &rarr;</h2>
-            <p>Manage your Non-fungible tokens there! Not currently implemented</p>
-          </a>
+          <Link href="/erc721">
+            <a
+              className={styles.card}
+            >
+              <h2>NFTs (ERC721) &rarr;</h2>
+              <p>Manage your Non-fungible tokens there! Not currently implemented</p>
+            </a>
+          </Link>
         </div>
       </main>
     </div>

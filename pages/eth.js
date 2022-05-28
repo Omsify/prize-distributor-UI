@@ -202,7 +202,7 @@ const PrizeDistribution = () => {
                                 <input onChange={updateWinnerNum} className="input mt-3" type="type" placeholder="4" rows="1"></input>
                             </div>
                             <div className={styles.EachWinnerPrize}>
-                                <h3 className="mt-3">What's the prize for each winner? (in ETH)</h3>
+                                <h3 className="mt-3">What&apos;s the prize for each winner? (in ETH)</h3>
                                 <input onChange={updatePrizeForRaffle} className="input mt-3" type="type" placeholder="0.005" rows="1"></input>
                             </div>
                             <button onClick={distributeETHToRandomWinnersHandler} className="button is-primary mt-3 mb-3" style={{ height: 65, width: 290 }}>Distribute ETH to addresses</button>
@@ -221,7 +221,7 @@ const PrizeDistribution = () => {
                                 <input onChange={updateAddresses} className="input mt-3" type="type" placeholder="0xC55CA7b3Abb59BecA63DDD4D422bC02B173dBba6,0x68A1437782411d73AF32d5Ba4d450fD9D46aA530,..." ></input>
                             </div>
                             <div className={styles.EachWinnerPrize}>
-                                <h3 className="mt-3">What's the prize for each winner? (in ETH)</h3>
+                                <h3 className="mt-3">What&apos;s the prize for each winner? (in ETH)</h3>
                                 <input onChange={updatePrize} className="input mt-3" type="type" placeholder="0.005" rows="1"></input>
                             </div>
                             <button onClick={distributeETHHandler} className="button is-primary mt-3 mb-3" style={{ height: 65, width: 290 }}>Distribute ETH to addresses</button>
