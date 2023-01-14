@@ -119,7 +119,7 @@ const PrizeDistribution = () => {
                 /* Change network to Rinkeby */
                 await ethereum.request({
                     method: 'wallet_switchEthereumChain',
-                    params: [{ chainId: web3.utils.toHex('4') }],
+                    params: [{ chainId: web3.utils.toHex('5') }],
                 })
                     .then(() => console.log('network has been set'))
                     .catch((e) => {

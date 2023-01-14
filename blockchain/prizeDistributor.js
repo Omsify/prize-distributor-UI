@@ -3,7 +3,7 @@ const abi = [{ "inputs": [{ "internalType": "uint64", "name": "subscriptionId", 
 const prizeDistributorContract = web3 => {
     return new web3.eth.Contract
         (
-            abi, "0xDfF4D519c31BcDC1755E1034b325Cbc3A31aEEAA"
+            abi, "0xB2248b2Bf2E7736340d201Fa7149fB3BdEEe4fe0"
         )
 }
 

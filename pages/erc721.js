@@ -25,7 +25,7 @@ const PrizeDistribution = () => {
     const [address, setAddress] = useState(null)
     const [pdContract, setPdContract] = useState(null)
 
-    const PDContractAddress = "0xDfF4D519c31BcDC1755E1034b325Cbc3A31aEEAA"
+    const PDContractAddress = "0xB2248b2Bf2E7736340d201Fa7149fB3BdEEe4fe0"
 
     useEffect(() => {
         if (pdContract && address) getRandomSeedUI()
@@ -167,7 +167,7 @@ const PrizeDistribution = () => {
                 /* Change network to Rinkeby */
                 await ethereum.request({
                     method: 'wallet_switchEthereumChain',
-                    params: [{ chainId: web3.utils.toHex('4') }],
+                    params: [{ chainId: web3.utils.toHex('5') }],
                 })
                     .then(() => console.log('network has been set'))
                     .catch((e) => {
